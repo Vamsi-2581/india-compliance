@@ -342,7 +342,7 @@ class GSTAccounts:
         self.used_accounts = set(row.account_head for row in self.gst_tax_rows)
 
     def has_gst_tax_rows(self):
-        self.gst_tax_rows = [row for row in self.doc.taxes if row.tax_amount and row.gst_tax_type]
+        self.gst_tax_rows = [row for row in self.doc.taxes if row.gst_tax_type]
 
         return self.gst_tax_rows
 
