@@ -1505,6 +1505,17 @@ class TestTransaction(IntegrationTestCase):
             doc.insert,
         )
 
+    def test_invalid_gst_account_outstate_with_zero_tax_amount(self):
+        doc = create_transaction(**self.transaction_details, is_out_state=True, do_not_save=True)
+        doc.taxes[0].rate = 0
+
+        self.assertRaisesRegex(
+            frappe.exceptions.ValidationError,
+            re.compile(r"^(.*Cannot charge IGST for intra-state.*)$"),
+            doc.insert,
+        )
+
+
     def test_invalid_gst_account_instate(self):
         if self.is_sales_doctype:
             self.transaction_details.customer = self.transaction_details.party_name = (
